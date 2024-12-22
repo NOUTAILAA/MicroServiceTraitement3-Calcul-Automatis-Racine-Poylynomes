@@ -1,12 +1,17 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Importer CORS
+import re
 import numpy as np
 import sympy as sp
-import re
 import requests
+from flask_cors import CORS  # Importer CORS
 
 app = Flask(__name__)
 
-# URL de l'API Spring Boot
+# Activer CORS pour toutes les routes
+CORS(app)  # Cela autorise toutes les origines, mais vous pouvez être plus spécifique si nécessaire.
+
+# URL de l'API Spring Boot pour enregistrer les résultats
 SPRING_BOOT_API_URL = "http://localhost:8082/api/store-polynomial"
 
 # Fonction pour remplacer x2 par x**2, x3 par x**3, etc., et 1x2 par 1*x**2
@@ -65,12 +70,15 @@ def format_expression(expr):
 @app.route('/calculateWithNumpy', methods=['POST'])
 def calculate_with_numpy():
     try:
-        # Récupérer l'expression du polynôme
+        # Récupérer les données de la requête
         data = request.get_json()
         expression = data.get('expression', '')
+        user_id = data.get('userId', None)  # Récupérer le userId
 
         if not expression:
             return jsonify({'error': 'No expression provided'}), 400
+        if not user_id:
+            return jsonify({'error': 'No userId provided'}), 400
         
         # Calcul des racines numériques
         roots = calculate_roots_from_expression(expression)
@@ -88,6 +96,7 @@ def calculate_with_numpy():
         
         # Créer un dictionnaire avec les résultats
         result = {
+            'userId': user_id,  # Ajouter le userId dans le résultat
             'roots': roots_list,
             'simplifiedExpression': formatted_simplified_expression,
             'factoredExpression': formatted_factored_expression
