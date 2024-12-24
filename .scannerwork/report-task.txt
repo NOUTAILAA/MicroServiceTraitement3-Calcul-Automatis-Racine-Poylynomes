@@ -1,0 +1,7 @@
+organization=noutailaa
+projectKey=MicroservNumpy
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.58741
+dashboardUrl=https://sonarcloud.io/dashboard?id=MicroservNumpy
+ceTaskId=AZP03h7UOqr6qfjIrBb3
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AZP03h7UOqr6qfjIrBb3
