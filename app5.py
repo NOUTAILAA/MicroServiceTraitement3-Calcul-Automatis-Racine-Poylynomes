@@ -12,7 +12,7 @@ app = Flask(__name__)
 CORS(app)  # Cela autorise toutes les origines, mais vous pouvez être plus spécifique si nécessaire.
 
 # URL de l'API Spring Boot pour enregistrer les résultats
-SPRING_BOOT_API_URL = "http://localhost:8082/api/store-polynomial"
+SPRING_BOOT_API_URL = "http://spring-app:8082/api/store-polynomial"
 
 # Fonction pour remplacer x2 par x**2, x3 par x**3, etc., et 1x2 par 1*x**2
 def preprocess_expression(expr):
@@ -114,4 +114,4 @@ def calculate_with_numpy():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5004)
+    app.run(host="0.0.0.0", port=5004, debug=True)
